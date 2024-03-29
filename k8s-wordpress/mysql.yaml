@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+    name: mysql
+
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            web: mysql
+    template:
+        metadata:
+            labels:
+                web: mysql
+
+        spec:
+            containers:
+            - name: wordpress-mysql
+              image: mysql:5.7
+              env:
+              - name: MYSQL_ROOT_PASSWORD
+                value: "redhat"
+              - name: MYSQL_DATABASE
+                value: "wordpress"
+              - name: MYSQL_USER
+                value: "wpuser"
+              - name: MYSQL_PASSWORD
+                value: "redhat"
+              imagePullPolicy: IfNotPresent
+              ports:
+              - containerPort: 3306 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: test-mysql
+spec:
+    ports:
+    - port: 3306
+    selector:
+        web: mysql

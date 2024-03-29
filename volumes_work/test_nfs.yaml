@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: test-nfs
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: test-nfs
+    template:
+        metadata:
+            labels:
+                app: test-nfs
+        spec:
+            containers:
+                - name: test-pod
+                  image: centos:7
+                  imagePullPolicy: IfNotPresent
+                  command:
+                    - sleep
+                    - "3600"
+                  volumeMounts:
+                    - name: test-volumes
+                      mountPath: /data
+            volumes:
+                - name: test-volumes
+                  nfs:
+                    server: "192.168.47.202"
+                    path: "/kk"
+

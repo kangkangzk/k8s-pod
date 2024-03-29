@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: test-centos
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: centos
+    template:
+        metadata:
+            labels:
+                app: centos
+        spec:
+            containers:
+            - name: test-centos
+              image: centos:7
+              imagePullPolicy: IfNotPresent
+              command:
+              - sleep
+              - "3600"

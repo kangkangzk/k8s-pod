@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: test-vpc
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: test-vpc
+    template:
+        metadata:
+            labels:
+                app: test-vpc
+        spec:
+            containers:
+                - name: test-pod
+                  image: centos:7
+                  imagePullPolicy: IfNotPresent
+                  command:
+                    - sleep
+                    - "3600"
+                  volumeMounts:
+                    - name: test-vpc
+                      mountPath: /data
+            volumes:
+                - name: test-vpc
+                  persistentVolumeClaim:
+                    claimName: test-pvc-2g

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+
+kind: DaemonSet
+
+metadata:
+    name: test-agent
+
+spec:
+    selector:
+        matchLabels:
+            app: zabbix-agent
+    template:
+        metadata:
+            labels:
+                app: zabbix-agent
+
+        spec:
+            containers:
+                - name: test-agent
+                  image: centos:7
+                  imagePullPolicy: IfNotPresent
+                  command:
+                    - sleep
+                    - "3600"

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: test-hostpath
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: test-hostpath
+    template:
+        metadata:
+            labels:
+                app: test-hostpath
+        spec:
+            containers:
+                - name: test-pod
+                  image: centos:7
+                  imagePullPolicy: IfNotPresent
+                  command:
+                    - sleep
+                    - "3600"
+                  volumeMounts:
+                    - name: test-volumes
+                      mountPath: /test
+            volumes:
+                - name: test-volumes
+                  hostPath:
+                    path: /data
+

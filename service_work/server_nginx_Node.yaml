@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: test2-nginx
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            web: nginx2
+    template:
+        metadata:
+            labels:
+                web: nginx2
+        spec:
+            containers:
+            - name: test-nginx
+              image: nginx:1.18
+              imagePullPolicy: IfNotPresent
+
+---
+apiVersion: v1
+
+kind: Service
+metadata:
+    name: test2-nginx
+spec:
+    clusterIP: None
+    ports:
+    - port: 80
+    selector:
+      web: nginx2
